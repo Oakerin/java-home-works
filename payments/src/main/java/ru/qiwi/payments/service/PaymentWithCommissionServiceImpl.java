@@ -3,10 +3,9 @@ package ru.qiwi.payments.service;
 import org.springframework.stereotype.Service;
 import ru.qiwi.payments.dataprovider.PaymentsDataProvider;
 import ru.qiwi.payments.dto.PaymentWithCommission;
-import ru.qiwi.payments.utils.PaymentUtil;
 
 @Service
-public class PaymentWithCommissionServiceImpl implements PaymentService {
+public class PaymentWithCommissionServiceImpl extends PaymentAbstractServiceImpl<PaymentWithCommission> implements PaymentService {
     private final PaymentsDataProvider paymentsDataProvider;
 
     public PaymentWithCommissionServiceImpl(PaymentsDataProvider paymentsDataProvider) {
@@ -14,15 +13,12 @@ public class PaymentWithCommissionServiceImpl implements PaymentService {
     }
 
     @Override
-    public int getTotalSum() {
-        PaymentUtil<PaymentWithCommission> payment = new PaymentUtil<>();
-        int amount = payment.getAmount(this.paymentsDataProvider.getPaymentWithCommission());
-        int commission = payment.getCommission(this.paymentsDataProvider.getPaymentWithCommission());
-        return amount + commission;
+    public PaymentWithCommission[] getPayments() {
+        return paymentsDataProvider.getPaymentWithCommission();
     }
 
     @Override
-    public int getPaymentsCount() {
-        return new PaymentUtil<>().getCount(this.paymentsDataProvider.getPaymentWithCommission());
+    public int getTotalAmount(PaymentWithCommission payment) {
+        return payment.getAmount() + payment.getCommission();
     }
 }
