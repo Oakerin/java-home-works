@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import ru.qiwi.payments.dataprovider.PaymentsDataProvider;
 import ru.qiwi.payments.dto.Payment;
 
+import java.util.function.Supplier;
+
 @Service
 public class PaymentServiceImpl extends PaymentAbstractServiceImpl<Payment> implements PaymentService {
     private final PaymentsDataProvider paymentsDataProvider;
@@ -13,8 +15,8 @@ public class PaymentServiceImpl extends PaymentAbstractServiceImpl<Payment> impl
     }
 
     @Override
-    public Payment[] getPayments() {
-        return paymentsDataProvider.getPayments();
+    public Supplier<Payment[]> getPayments() {
+        return paymentsDataProvider::getPayments;
     }
 
     @Override

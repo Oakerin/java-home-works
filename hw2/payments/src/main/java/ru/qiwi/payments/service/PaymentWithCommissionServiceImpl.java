@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import ru.qiwi.payments.dataprovider.PaymentsDataProvider;
 import ru.qiwi.payments.dto.PaymentWithCommission;
 
+import java.util.function.Supplier;
+
 @Service
 public class PaymentWithCommissionServiceImpl extends PaymentAbstractServiceImpl<PaymentWithCommission> implements PaymentService {
     private final PaymentsDataProvider paymentsDataProvider;
@@ -13,8 +15,8 @@ public class PaymentWithCommissionServiceImpl extends PaymentAbstractServiceImpl
     }
 
     @Override
-    public PaymentWithCommission[] getPayments() {
-        return paymentsDataProvider.getPaymentWithCommission();
+    public Supplier<PaymentWithCommission[]> getPayments() {
+        return paymentsDataProvider::getPaymentWithCommission;
     }
 
     @Override
