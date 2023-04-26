@@ -2,20 +2,19 @@ package ru.qiwi.payments.service;
 
 import java.util.Arrays;
 import java.util.function.Supplier;
-import java.util.stream.Stream;
+import java.util.function.ToIntFunction;
 
 public abstract class PaymentAbstractServiceImpl<T> {
-
-    public abstract Supplier<T[]> getPayments();
-
-    public abstract int getTotalAmount(T payment);
+    public Supplier<T[]> getPayments;
+    public ToIntFunction<T> getTotalAmount;
 
     public int getTotalSum() {
-        Stream<T> payments = Arrays.stream(getPayments().get());
-        return payments.mapToInt(this::getTotalAmount).sum();
+        return Arrays.stream(getPayments.get())
+                .mapToInt(getTotalAmount)
+                .sum();
     }
 
     public int getPaymentsCount() {
-        return getPayments().get().length;
+        return getPayments.get().length;
     }
 }
